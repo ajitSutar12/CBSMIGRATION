@@ -1,23 +1,3 @@
-// import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-// export const config: TypeOrmModuleOptions = {
-//   type: 'postgres',
-//   username: 'bankuser',
-//   password: 'bank@bhairavnath',
-//   port: 5432,
-//   host: '139.59.63.215',
-//   database:'bh_cbs',
-//   // database: 'CBSBHAIRAVNATHBARNCH',
-//   synchronize: false,
-//   // synchronize: true,
-//   logging: false,
-//   // logging: true,
-//   entities: ['dist/**/*.entity{.ts,.js}'],
-//   migrations: ["dist/migration/*{.ts,.js}"],
-//   cli: {
-//     migrationsDir: 'src/migration'
-//   },
-// };
-
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 export const config: TypeOrmModuleOptions = {
   type: 'postgres',
@@ -29,10 +9,10 @@ export const config: TypeOrmModuleOptions = {
   host: '127.0.0.1',
   // host: '139.59.63.215',
   // database: 'tests',
-  database: 'datamigration',
+  database: 'sidhanerli',
   // database: 'bhairavnath_cbs',
-  synchronize: false,
-  // synchronize: true,
+  // synchronize: false,
+  synchronize: true,
   logging: false,
   // logging: true,
   entities: ['dist/**/*.entity{.ts,.js}'],

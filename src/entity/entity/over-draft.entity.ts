@@ -9,7 +9,7 @@ export class TODTRAN {
     AC_TYPE: string
 
     @Column({ default: 0 })
-    AC_NO: number
+    AC_NO: string
 
     @Column({ nullable: true })
     AC_ODAMT: string
