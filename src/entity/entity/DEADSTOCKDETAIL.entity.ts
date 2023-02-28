@@ -32,7 +32,7 @@ export class DEADSTOCKDETAIL {
     ITEM_NAME: string
 
     @Column({ nullable: true })
-    ITEM_RATE: number
+    ITEM_RATE: string
 
     @Column({ nullable: true })
     ITEM_QTY: number

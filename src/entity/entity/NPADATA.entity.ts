@@ -35,25 +35,25 @@ export class NPADATA {
     AC_EXPIRE_DATE: string
 
     @Column({ nullable: true })
-    AC_SANCTION_AMOUNT: number
+    AC_SANCTION_AMOUNT: string
 
     @Column({ nullable: true })
-    AC_SECURITY_AMT: number
+    AC_SECURITY_AMT: string
 
     @Column({ nullable: true })
-    LEDGER_BALANCE: number
+    LEDGER_BALANCE: string
 
     @Column({ nullable: true })
-    OVERDUE_AMOUNT: number
+    OVERDUE_AMOUNT: string
 
     @Column({ nullable: true })
-    DUE_INSTALLMENT: number
+    DUE_INSTALLMENT: string
 
     @Column({ nullable: true })
-    NPA_PROVISION_AMT: number
+    NPA_PROVISION_AMT: string
 
     @Column({ nullable: true })
-    RECEIVABLE_INTEREST: number
+    RECEIVABLE_INTEREST: string
 
     @Column()
     NPA_CLASS: string
@@ -62,7 +62,7 @@ export class NPADATA {
     NPA_MONTHS: number
 
     @Column({ nullable: true })
-    NPA_PERCENTAGE: number
+    NPA_PERCENTAGE: string
 
     @Column({ nullable: true })
     NPA_DAYS: number
@@ -74,31 +74,31 @@ export class NPADATA {
     OVERDUE_DATE: string
 
     @Column({ nullable: true })
-    TOBE_RECOVER_AMT: number
+    TOBE_RECOVER_AMT: string
 
     @Column({ nullable: true })
     USER_CODE: string
 
     @Column({ nullable: true })
-    UNSECURE_PROV_AMT: number
+    UNSECURE_PROV_AMT: string
 
     @Column({ nullable: true })
-    UNSECURE_PERCENTAGE: number
+    UNSECURE_PERCENTAGE: string
 
     @Column({ nullable: true })
-    PROV_ON_AMT: number
+    PROV_ON_AMT: string
 
     @Column({ nullable: true })
-    OVERDUE_INTEREST: number
+    OVERDUE_INTEREST: string
 
     @Column({ nullable: true })
-    CURRENT_INTEREST: number
+    CURRENT_INTEREST: string
 
     @Column({ nullable: true })
-    AC_INSTALLMENT: number
+    AC_INSTALLMENT: string
 
     @Column({ nullable: true })
-    AMT_TOBE_RECOVER: number
+    AMT_TOBE_RECOVER: string
 
 
 }

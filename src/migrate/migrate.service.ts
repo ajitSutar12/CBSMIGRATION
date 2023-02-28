@@ -330,6 +330,7 @@ export class MigrateService {
   PostAcMaster: any;
   PostSchemast: any;
   PostBranch: any
+  PostBranchOne: any
   PostInterestCategoryData: any
   PostdirectorMaster: any
   PostCitymaster: any
@@ -354,6 +355,7 @@ export class MigrateService {
   }
   async TableData() {
     this.PostBranch = await this.OWNBRANCHMASTERService.find()
+    this.PostBranchOne = await this.OWNBRANCHMASTERService.find({ id: this.BRANCH_CODE })
     this.PostSyspara = await this.SYSPARAService.find()
     this.PostInterestCategoryData = await this.INTCATEGORYMASTERService.find()
     this.Postidmaster = await this.IDMASTERService.find()
@@ -375,71 +377,75 @@ export class MigrateService {
     this.password = data.password
     this.SID = data.SID
     this.BRANCH_CODE = data.BRANCH_CODE
+    await this.SYSPARA()
     await this.TableData()
-    // await this.SYSPARA()
-    // await this.SHARECAPITALAMTDETAILS()
-    // await this.SCHEMAST()
-    // await this.SCHEMDATA()
-    // await this.ACMASTER()
-    // await this.TRANINPUTHEAD()
-    // //information 
-    // await this.SIZEWISEBALANCE()
-    // await this.TERMMASTER()
-    // await this.ADVOCATEMASTER()
-    // await this.BALACATA()
-    // await this.PREFIX()
-    // await this.PRIORITYSECTORMASTER()
-    // await this.RECOVERYCLEARKMASTER()
-    // await this.RISKCATEGORYMASTER()
-    // await this.SALARYDIVISIONMASTER()
-    // await this.SUBSALARYMASTER()
-    // await this.WEAKERMASTER()
-    // await this.TDRECEIPTMASTER()
-    // await this.AUTHORITYMASTER()
-    // await this.LOCKERRACKMASTER()
-    // await this.LOCKERSIZE()
-    // await this.LOCKERMASTER()
-    // await this.ITEMCATEGORYMASTER()
-    // await this.DOCUMENTMASTER()
-    // await this.BRANCHMASTER()
-    // await this.COURTMASTER()
-    // await this.CATEGORYMASTER()
-    // await this.CASTMASTER()
-    // await this.BANKDETAILS()
-    // await this.CITYMASTER()
-    // await this.BANKMASTER()
-    // await this.DEPRCATEGORY()
-    // await this.DIRECTORMASTER()
-    // await this.HEALTHMASTER()
-    // await this.INDUSTRYMASTER()
-    // await this.INSUARANCEMASTER()
-    // await this.INTCATEGORYMASTER()
-    // await this.LOANSTAGEMASTER()
-    // await this.NARRATIONMASTER()
-    // await this.OCCUPATIONMASTER()
-    // await this.OPERATIONMASTER()
-    // await this.PRIORITYMASTER()
-    // await this.PURPOSEMASTER()
-    // await this.REPORTTYPEMASTER()
-    // //utility
-    // await this.HOLIDAYSMASTER()
-    // await this.PGCOMMISSIONMASTER()
-    //defination
-    // await this.intrateTD()
-    // await this.INTRATETDMULTI()
-    // await this.DEPRRATE()
-    // await this.INTRATELOAN()
-    // await this.INTRATEPATSCHEMES()
-    // await this.PREMATULESSRATE()
-    // await this.CHARGES()
-    // await this.INTRATESBPG()
-    // await this.SECURITYMASTER()
-    // await this.TDSRATE()
-    // await this.NPAMASTER()
-    // await this.TDSFORMSUBMIT()
-    // await this.COMMISSIONSLAB()
-    // await this.IDMASTER()
-    // await this.ITEMMASTER()
+    await this.SHARECAPITALAMTDETAILS()
+    await this.SCHEMAST()
+    await this.TableData()
+    await this.SCHEMDATA()
+    await this.ACMASTER()
+    await this.TableData()
+    await this.TRANINPUTHEAD()
+    //information 
+    await this.SIZEWISEBALANCE()
+    await this.TERMMASTER()
+    await this.ADVOCATEMASTER()
+    await this.BALACATA()
+    await this.PREFIX()
+    await this.PRIORITYSECTORMASTER()
+    await this.RECOVERYCLEARKMASTER()
+    await this.RISKCATEGORYMASTER()
+    await this.SALARYDIVISIONMASTER()
+    await this.SUBSALARYMASTER()
+    await this.WEAKERMASTER()
+    await this.TDRECEIPTMASTER()
+    await this.AUTHORITYMASTER()
+    await this.LOCKERRACKMASTER()
+    await this.LOCKERSIZE()
+    await this.LOCKERMASTER()
+    await this.ITEMCATEGORYMASTER()
+    await this.DOCUMENTMASTER()
+    await this.BRANCHMASTER()
+    await this.COURTMASTER()
+    await this.CATEGORYMASTER()
+    await this.CASTMASTER()
+    await this.BANKDETAILS()
+    await this.CITYMASTER()
+    await this.BANKMASTER()
+    await this.DEPRCATEGORY()
+    await this.DIRECTORMASTER()
+    await this.HEALTHMASTER()
+    await this.INDUSTRYMASTER()
+    await this.INSUARANCEMASTER()
+    await this.INTCATEGORYMASTER()
+    await this.LOANSTAGEMASTER()
+    await this.NARRATIONMASTER()
+    await this.OCCUPATIONMASTER()
+    await this.OPERATIONMASTER()
+    await this.PRIORITYMASTER()
+    await this.PURPOSEMASTER()
+    await this.REPORTTYPEMASTER()
+    await this.TableData()
+    //utility
+    await this.HOLIDAYSMASTER()
+    await this.PGCOMMISSIONMASTER()
+    // defination
+    await this.intrateTD()
+    await this.INTRATETDMULTI()
+    await this.DEPRRATE()
+    await this.INTRATELOAN()
+    await this.INTRATEPATSCHEMES()
+    await this.PREMATULESSRATE()
+    await this.CHARGES()
+    await this.INTRATESBPG()
+    await this.SECURITYMASTER()
+    await this.TDSRATE()
+    await this.NPAMASTER()
+    await this.TDSFORMSUBMIT()
+    await this.COMMISSIONSLAB()
+    await this.IDMASTER()
+    await this.TableData()
+    await this.ITEMMASTER()
     await this.SHmasterScript()
     await this.DPMASTERScript()
     await this.PGmasterScript()
@@ -514,6 +520,7 @@ export class MigrateService {
     await this.GLREPORTMASTER()
     await this.LOCKERTRAN()
     await this.LOCKERRENTTRAN()
+    console.log('data conversion successfully completed')
   }
 
   //syspara
@@ -629,8 +636,8 @@ export class MigrateService {
       sys['DAY_END_EXECUTED'] = ele.DAY_END_EXECUTED == -1 ? '1' : '0'
       sys['PIGMY_PREVIOUS_DATE'] = ele.PIGMY_PREVIOUS_DATE == '' || ele.PIGMY_PREVIOUS_DATE == null ? null : moment(ele.PIGMY_PREVIOUS_DATE).format('DD/MM/YYYY');
       sys['PIGMY_CURRENT_DATE'] = ele.PIGMY_CURRENT_DATE == '' || ele.PIGMY_CURRENT_DATE == null ? null : moment(ele.PIGMY_CURRENT_DATE).format('DD/MM/YYYY');
-      sys['PIGMY_DAY_BEGIN_EXECUTED'] = ele.PIGMY_DAY_BEGIN_EXECUTED
-      sys['PIGMY_DAY_END_EXECUTED'] = ele.PIGMY_DAY_END_EXECUTED
+      sys['PIGMY_DAY_BEGIN_EXECUTED'] = ele.PIGMY_DAY_BEGIN_EXECUTED == -1 ? '1' : '0'
+      sys['PIGMY_DAY_END_EXECUTED'] = ele.PIGMY_DAY_END_EXECUTED == -1 ? '1' : '0'
       sys['BACK_DAY_OPTION'] = ele.BACK_DAY_OPTION
       sys['CASH_IN_HAND_ACNO'] = ele.CASH_IN_HAND_ACNO
       sys['CLG_HOUSE_METHOD'] = ele.CLG_HOUSE_METHOD
@@ -644,7 +651,6 @@ export class MigrateService {
       let insertSyspara = await this.SYSPARAService.insert(sys)
       console.log('SYSPARA')
       await connection2.close()
-      await this.TableData()
     }
     catch (error) {
       throw new HttpException({
@@ -832,7 +838,6 @@ export class MigrateService {
         await connection2.commit();
       }
       await connection2.close();
-      await this.TableData()
       console.log('SCHEMAST Completed')
     }
     catch (error) {
@@ -1887,7 +1892,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new STOCKSTATEMENT()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_TYPE'] = ele.actype
@@ -1933,7 +1938,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new VEHICLE()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -1983,7 +1988,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new PLEDGESTOCK()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2031,7 +2036,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new PLANTMACHINARY()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2079,7 +2084,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new OWNDEPOSIT()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2128,7 +2133,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new OTHERSECURITY()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2172,7 +2177,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new MARKETSHARE()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2218,7 +2223,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new LANDBUILDING()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2269,7 +2274,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new GOLDSILVER()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2323,7 +2328,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new FURNITURE()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2370,7 +2375,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new FIREPOLICY()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2415,7 +2420,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new SECINSURANCE()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['BRANCH_CODE'] = ele.BRANCH_CODE
@@ -2458,7 +2463,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new GOVTSECULIC()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['AC_NO'] = BANKACNO
@@ -2508,7 +2513,7 @@ export class MigrateService {
           }
         }
         let acno = Number(ele.AC_NO) + 100000
-        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
         let obj = new BOOKDEBTS()
         obj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
         obj['BRANCH_CODE'] = ele.BRANCH_CODE
@@ -2547,7 +2552,26 @@ export class MigrateService {
       newObj['M_NAME'] = namearr[2]
     }
   }
-
+  //IDMASTER
+  async IDMASTERCORRECTION() {
+    let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let result = await connection2.execute(`select * from (
+      select rownum offset, rs.* from (
+        SELECT IDMASTER.*, OCCUPATIONMASTER.CODE AS OCCUPATION, CASTMASTER.CODE AS CASTMASTER ,RISKCATEGORYMASTER.CODE
+        AS RISKCATEGORYMASTER FROM IDMASTER LEFT JOIN OCCUPATIONMASTER ON IDMASTER.AC_OCODE=OCCUPATIONMASTER.CODE
+        LEFT JOIN CASTMASTER ON IDMASTER.AC_CAST= CASTMASTER.CODE LEFT JOIN RISKCATEGORYMASTER ON IDMASTER.AC_RISKCATG =
+        RISKCATEGORYMASTER.CODE WHERE IDMASTER.AC_NO=1156 ORDER BY IDMASTER.AC_NO
+     ) rs
+  ) where rownum <= ${this.limit}
+      and offset > ${this.offset}`);
+    let data = await this.jsonConverter(result);
+    //get maxcount of row
+    let datacount = await connection2.execute(`select count(*) as count from NOTFOUNDIDMASTER`);
+    var result1 = await this.jsonConverter(datacount);
+    await connection2.close()
+    this.count = result1[0].COUNT;
+    await this.IDMASTERWITHLIMIT(data);
+  }
   //IDMASTER
   async IDMASTER() {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
@@ -2753,8 +2777,7 @@ export class MigrateService {
   //joint
   async jointAc(table, acnotype, ac_type, ac_no, id) {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
-    let result = await connection2.execute(`SELECT max(JointAcLink.JOINT_ACNAME) AS JOINT_ACNAME,
-    max(JointAcLink .OPERATOR) as OPERATOR,JointAcLink .ac_no FROM JointAcLink left join ${table} on JointAcLink.ac_no = ${table}.ac_no  where JointAcLink.ac_acnotype = '${acnotype}' and ${table}.ac_type =  ${ac_type} and ${table}.ac_no =  ${ac_no}  GROUP BY JointAcLink .ac_no ORDER BY JointAcLink.ac_no`)
+    let result = await connection2.execute(`SELECT * FROM JointAcLink  where JointAcLink.ac_acnotype = '${acnotype}' and ac_type =  ${ac_type} and ac_no =  ${ac_no}  ORDER BY JointAcLink.ac_no`)
     let data = await this.jsonConverter(result);
     for (let element of data) {
       let joint = new TEMPJOINTACLINK();
@@ -2836,7 +2859,7 @@ export class MigrateService {
       let BANKACNO = null
       if (lockerSchemeData.length != 0) {
         let TDACNO = Number(ele.TRAN_ACNO) + 100000
-        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + lockerSchemeData[0]?.S_APPL + TDACNO
+        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + lockerSchemeData[0]?.S_APPL + TDACNO
       }
       let obj = new SPECIALINSTRUCTION()
       obj['INSTRUCTION_DATE'] = ele.INSTRUCTION_DATE == '' || ele.INSTRUCTION_DATE == null ? null : moment(ele.INSTRUCTION_DATE).format('DD/MM/YYYY');
@@ -2871,7 +2894,7 @@ export class MigrateService {
       let BANKACNO = null
       if (lockerSchemeData.length != 0) {
         let TDACNO = Number(ele.AC_NO) + 100000
-        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + lockerSchemeData[0]?.S_APPL + TDACNO
+        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + lockerSchemeData[0]?.S_APPL + TDACNO
       }
       let obj = new TODTRAN()
       obj['AC_TYPE'] = ele.ACTYPE
@@ -3002,7 +3025,6 @@ export class MigrateService {
   //interest rate for term deposit
   //INTRATETD grid table:TERMINTRATE
   async intrateTD() {
-    await this.TableData()
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
     let result = await connection2.execute(`select distinct intratetd.ACNOTYPE,intratetd.INT_CATEGORY,intratetd.EFFECT_DATE,intratetd.actype, schemast.typeid as ac_type  from INTRATETD left join schemast on intratetd.actype=schemast.s_appl order by intratetd.effect_date asc`)
     let data = await this.jsonConverter(result);
@@ -3378,6 +3400,32 @@ export class MigrateService {
     console.log('COMMISSIONSLAB')
   }
   //pgMASTER with offset and limit
+  async PGMASTERCORRECTION() {
+    let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let result = await connection2.execute(
+      `select * from (
+            select rownum offset, rs.* from (
+          SELECT NOTFOUNDPGMASTER.*,  CATEGORYMASTER.CODE AS ACCATG ,  SCHEMAST.TYPEID AS AC_TYPE1 ,
+                NOTFOUNDPGMASTER.AC_TYPE AS DPTYPE, OWNBRANCHMASTER.CODE AS ACINTROBRANCH ,   OPERATIONMASTER.CODE AS ACOPRCODE,
+                INTCATEGORYMASTER.CODE AS ACINTCATA FROM NOTFOUNDPGMASTER  
+                    left JOIN INTCATEGORYMASTER ON NOTFOUNDPGMASTER.AC_INTCATA=INTCATEGORYMASTER.CODE
+                    left JOIN OPERATIONMASTER ON NOTFOUNDPGMASTER.AC_OPR_CODE=OPERATIONMASTER.CODE
+                    left JOIN CATEGORYMASTER ON NOTFOUNDPGMASTER.AC_CATG=CATEGORYMASTER.CODE
+                    left JOIN OWNBRANCHMASTER ON NOTFOUNDPGMASTER.AC_INTROBRANCH= OWNBRANCHMASTER.CODE 
+                    left JOIN SCHEMAST ON NOTFOUNDPGMASTER.AC_TYPE= SCHEMAST.S_APPL ORDER BY NOTFOUNDPGMASTER.AC_NO
+           ) rs
+        ) where rownum <= ${this.limit}
+            and offset > ${this.offset}`
+    );
+    var data = await this.jsonConverter(result);
+    //get maxcount of row
+    let datacount = await connection2.execute(`select count(*) as count from NOTFOUNDPGMASTER`);
+    var result1 = await this.jsonConverter(datacount);
+    await connection2.close()
+    this.count = result1[0].COUNT;
+    await this.PGMASTERSCRIPTWITHLIMIT(data);
+  }
+  //pgMASTER with offset and limit
   async PGmasterScript() {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
     let result = await connection2.execute(
@@ -3401,11 +3449,12 @@ export class MigrateService {
     var result1 = await this.jsonConverter(datacount);
     await connection2.close()
     this.count = result1[0].COUNT;
-    this.PGMASTERSCRIPTWITHLIMIT(data);
+    await this.PGMASTERSCRIPTWITHLIMIT(data);
   }
   async PGMASTERSCRIPTWITHLIMIT(data) {
     let operations = await this.OPERATIONMASTERService.find()
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let dpmasterData = await this.PGMASTERService.find()
     for (let ele of data) {
       if (ele.AC_TYPE1 == null) {
         continue;
@@ -3482,13 +3531,17 @@ export class MigrateService {
       let AGENTBANKACNO = null
       let AGENTAC_NO = Number(ele.AGENT_ACNO) + 100000
       if (ele.AGENT_ACTYPE != null) {
-        agentData = this.PostSchemast.filter(ele2 => ele2['id'] == ele.AGENT_TYPE[0].TYPEID);
+        agentData = this.PostSchemast.filter(ele2 => ele2['id'] == AGENT_TYPE[0].TYPEID);
         if (agentData.length != 0)
-          AGENTBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + agentData[0].S_APPL + AGENTAC_NO
+          AGENTBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + agentData[0].S_APPL + AGENTAC_NO
       }
       let acno = Number(ele.AC_NO) + 100000
       let AC_MEMBNO = Number(ele.AC_MEMBNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
+      let dpmasterDuplicate = dpmasterData.filter(ele3 => ele3['BANKACNO'] == BANKACNO);
+      if (dpmasterDuplicate.length != 0) {
+        continue;
+      }
       let newObj = new PGMASTER();
       newObj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE;
       newObj['AC_NO'] = acno;
@@ -3571,6 +3624,33 @@ export class MigrateService {
   }
 
   //SHMASTER with offset and limit
+  async SHmasterCORRECTION() {
+    let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let result = await connection2.execute(
+      `select * from (
+            select rownum offset, rs.* from (
+              SELECT NOTFOUNDSHMASTER.*,  
+              CATEGORYMASTER.CODE AS ACCATG , 
+               SCHEMAST.TYPEID AS ACTYPE1 ,
+               NOTFOUNDSHMASTER.AC_TYPE AS SHTYPE,
+               NOTFOUNDSHMASTER.AC_NO AS SHAC_NO, 
+               OWNBRANCHMASTER.CODE AS BRANCH_CODE1 FROM NOTFOUNDSHMASTER 
+               LEFT JOIN CATEGORYMASTER ON NOTFOUNDSHMASTER.AC_CATG=CATEGORYMASTER.CODE 
+               LEFT JOIN OWNBRANCHMASTER ON NOTFOUNDSHMASTER.AC_BRANCH= OWNBRANCHMASTER.CODE  
+               LEFT JOIN SCHEMAST ON NOTFOUNDSHMASTER.AC_TYPE= SCHEMAST.S_APPL order by NOTFOUNDSHMASTER.AC_NO 
+           ) rs
+        ) where rownum <= ${this.limit}
+            and offset > ${this.offset}`
+    );
+    var data = await this.jsonConverter(result);
+
+    //get maxcount of row
+    let datacount = await connection2.execute(`select count(*) as count from NOTFOUNDSHMASTER`);
+    var result1 = await this.jsonConverter(datacount);
+    await connection2.close()
+    this.count = result1[0].COUNT;
+    await this.SHMASTERSCRIPTWITHLIMIT(data);
+  }
   async SHmasterScript() {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
     let result = await connection2.execute(
@@ -3596,10 +3676,11 @@ export class MigrateService {
     var result1 = await this.jsonConverter(datacount);
     await connection2.close()
     this.count = result1[0].COUNT;
-    this.SHMASTERSCRIPTWITHLIMIT(data);
+    await this.SHMASTERSCRIPTWITHLIMIT(data);
   }
   async SHMASTERSCRIPTWITHLIMIT(data) {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let dpmasterData = await this.SHMASTERService.find()
     for (let ele of data) {
       //idmaster find   
       if (ele.ACTYPE1 == null) {
@@ -3636,7 +3717,11 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele1 => ele1['id'] == ele.ACTYPE1);
       let acno = Number(ele.AC_NO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
+      let dpmasterDuplicate = dpmasterData.filter(ele2 => ele2['BANKACNO'] == BANKACNO);
+      if (dpmasterDuplicate.length != 0) {
+        continue;
+      }
       let newObj = new SHMASTER();
       newObj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE;
       newObj['AC_NO'] = acno;
@@ -3713,6 +3798,26 @@ export class MigrateService {
     let result = await getManager().query(strSQL);
   }
   //DPMASTER WITH OFFSET AND LIMIT 
+  async DPMASTERCorrection() {
+    let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let result = await connection2.execute(
+      `select * from (
+            select rownum offset, rs.* from (
+              SELECT NOTFOUNDDPMASTER.*, SCHEMAST.TYPEID AS AC_TYPE1         
+     FROM NOTFOUNDDPMASTER  LEFT JOIN SCHEMAST ON NOTFOUNDDPMASTER.AC_TYPE= SCHEMAST.S_APPL  ORDER BY NOTFOUNDDPMASTER.AC_NO
+           ) rs
+        ) where rownum <= ${this.limit}
+            and offset > ${this.offset}`
+    );
+    var data = await this.jsonConverter(result);
+
+    //get maxcount of row
+    let datacount = await connection2.execute(`select count(*) as count from NOTFOUNDDPMASTER`);
+    var result1 = await this.jsonConverter(datacount);
+    await connection2.close()
+    this.count = result1[0].COUNT;
+    await this.DPMASTERSCRIPTWITHLIMIT(data);
+  }
   async DPMASTERScript() {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
     let result = await connection2.execute(
@@ -3731,9 +3836,10 @@ export class MigrateService {
     var result1 = await this.jsonConverter(datacount);
     await connection2.close()
     this.count = result1[0].COUNT;
-    this.DPMASTERSCRIPTWITHLIMIT(data);
+    await this.DPMASTERSCRIPTWITHLIMIT(data);
   }
   async DPMASTERSCRIPTWITHLIMIT(data) {
+    let dpmasterData = await this.DPMASTERService.find()
     let balcata = await this.BALACATAService.find()
     let operations = await this.OPERATIONMASTERService.find()
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
@@ -3822,8 +3928,12 @@ export class MigrateService {
       let TDACNO = Number(ele.TD_ACNO) + 100000
       let AC_MEMBNO = ele.AC_MEMBNO == 0 ? null : Number(ele.AC_MEMBNO) + 100000
       let TD_ACNO = null
-      TD_ACTYPE.length == 0 ? TD_ACNO = null : TD_ACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + lockerSchemeData[0]?.S_APPL + TDACNO
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      TD_ACTYPE.length == 0 ? TD_ACNO = null : TD_ACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + lockerSchemeData[0]?.S_APPL + TDACNO
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
+      let dpmasterDuplicate = dpmasterData.filter(ele2 => ele2['BANKACNO'] == BANKACNO);
+      if (dpmasterDuplicate.length != 0) {
+        continue;
+      }
       let newObj = new DPMASTER();
       let AC_INTRACNO = ele.AC_INTRACNO == null ? null : Number(ele.AC_INTRACNO) + 100000
       newObj['AC_ACNOTYPE'] = ele.AC_ACNOTYPE;
@@ -3923,6 +4033,25 @@ export class MigrateService {
     }
   }
   //lnmaster with offset and limit
+  async lnmasterCorrection() {
+    let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let result = await connection2.execute(`select * from (
+            select rownum offset, rs.* from (
+              SELECT NOTFOUNDLNMASTER.*,  SCHEMAST.TYPEID AS AC_TYPE1  from NOTFOUNDLNMASTER  
+              LEFT JOIN SCHEMAST ON NOTFOUNDLNMASTER.AC_TYPE= SCHEMAST.S_APPL  ORDER BY NOTFOUNDLNMASTER.AC_NO
+           ) rs
+        ) where rownum <= ${this.limit}
+            and offset > ${this.offset}`);
+    var data = await this.jsonConverter(result);
+
+    //get maxcount of row
+    let datacount = await connection2.execute(`select count(*) as count from NOTFOUNDLNMASTER`);
+    var result1 = await this.jsonConverter(datacount);
+    await connection2.close()
+    this.count = result1[0].COUNT;
+    await this.LNMASTERSCRIPTWITHLIMIT(data);
+  }
+  //lnmaster with offset and limit
   async lnmasterScript() {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
     let result = await connection2.execute(`select * from (
@@ -3939,7 +4068,7 @@ export class MigrateService {
     var result1 = await this.jsonConverter(datacount);
     await connection2.close()
     this.count = result1[0].COUNT;
-    this.LNMASTERSCRIPTWITHLIMIT(data);
+    await this.LNMASTERSCRIPTWITHLIMIT(data);
   }
   async LNMASTERSCRIPTWITHLIMIT(data) {
     let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
@@ -3950,6 +4079,7 @@ export class MigrateService {
     let purpose = await this.PURPOSEMASTERService.find()
     let industry = await this.INDUSTRYMASTERService.find()
     let health = await this.HEALTHMASTERService.find()
+    let dpmasterData = await this.SHMASTERService.find()
     for (let ele of data) {
       if (ele.AC_TYPE1 == null) {
         continue;
@@ -4053,7 +4183,11 @@ export class MigrateService {
       let schemastData = this.PostSchemast.filter(ele1 => ele1['id'] == ele.AC_TYPE1);
       let acno = Number(ele.AC_NO) + 100000
       let AC_MEMBNO = Number(ele.AC_MEMBNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
+      let dpmasterDuplicate = dpmasterData.filter(ele4 => ele4['BANKACNO'] == BANKACNO);
+      if (dpmasterDuplicate.length != 0) {
+        continue;
+      }
       let mem_TYPE = null
       if (ele.AC_MEMBTYPE != null) {
         let memTYPE = await connection2.execute(`select TYPEID from schemast where S_APPL=${ele.AC_MEMBTYPE}`)
@@ -4261,7 +4395,7 @@ export class MigrateService {
       let acno: number = 0
       let schemastData = this.PostSchemast.filter(ele1 => ele1['id'] == ele.ACTYPE);
       acno = 100000 + Number(ele.AC_NO)
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       renew['RENEWAL_DATE'] = ele.RENEWAL_DATE == '' || ele.RENEWAL_DATE == null ? null : moment(ele.RENEWAL_DATE).format('DD/MM/YYYY');
       renew['AC_RENEWAL_COUNTER'] = ele.AC_RENEWAL_COUNTER
       renew['AC_ACNOTYPE'] = ele.AC_ACNOTYPE
@@ -4269,6 +4403,7 @@ export class MigrateService {
       renew['AC_NO'] = BANKACNO
       renew['OLD_MONTH'] = ele.OLD_MONTH
       renew['OLD_EXPIRY_DATE'] = ele.OLD_EXPIRY_DATE == '' || ele.OLD_EXPIRY_DATE == null ? null : moment(ele.OLD_EXPIRY_DATE).format('DD/MM/YYYY')
+      renew['OLD_AC_ACNOTYPE'] = ele.AC_ACNOTYPE
       renew['OLD_SANCTION_LIMIT'] = ele.OLD_SANCTION_LIMIT
       renew['OLD_SANCTION_DATE'] = ele.OLD_SANCTION_DATE == '' || ele.OLD_SANCTION_DATE == null ? null : moment(ele.OLD_SANCTION_DATE).format('DD/MM/YYYY')
       renew['OLD_SECURITY_AMOUNT'] = ele.OLD_SECURITY_AMOUNT
@@ -4300,7 +4435,18 @@ export class MigrateService {
       renew['OFFICER_CODE'] = ele.OFFICER_CODE
       renew['INTEREST_DATE'] = ele.INTEREST_DATE == '' || ele.INTEREST_DATE == null ? null : moment(ele.INTEREST_DATE).format('DD/MM/YYYY');
       renew['IS_ASON_AC'] = ele.IS_ASON_AC
-      renew['TRAN_STATUS'] = ele.TRAN_STATUS == '' || ele.TRAN_STATUS == 'UP' ? '0' : '1'
+      if (ele.TRAN_STATUS == 'UP') {
+        renew['TRAN_STATUS'] = '0'
+        renew['SYSCHNG_LOGIN'] = null
+      }
+      else if (ele.TRAN_STATUS == 'PS') {
+        renew['TRAN_STATUS'] = '1'
+        renew['SYSCHNG_LOGIN'] = ele.OFFICER_CODE == null ? ele.USER_CODE : ele.OFFICER_CODE
+      }
+      else if (ele.TRAN_STATUS == 'RJ') {
+        renew['SYSCHNG_LOGIN'] = ele.OFFICER_CODE == null ? ele.USER_CODE : ele.OFFICER_CODE
+        renew['TRAN_STATUS'] = '2'
+      }
       renew['TRAN_NO'] = ele.TRAN_NO
       renew['NORMAL_INT_TRTYPE'] = ele.NORMAL_INT_TRTYPE
       renew['NEW_LAST_TRNDATE'] = ele.NEW_LAST_TRNDATE == '' || ele.NEW_LAST_TRNDATE == null ? null : moment(ele.NEW_LAST_TRNDATE).format('DD/MM/YYYY');
@@ -4458,7 +4604,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele1 => ele1['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let loanObj = new DEPOTRAN();
       loanObj['TRAN_NO'] = item.TRAN_NO;
       loanObj['SERIAL_NO'] = item.SERIAL_NO;
@@ -4547,7 +4693,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let loanObj = new LOANTRAN();
       loanObj['TRAN_NO'] = item.TRAN_NO;
       loanObj['SERIAL_NO'] = item.SERIAL_NO;
@@ -4641,10 +4787,10 @@ export class MigrateService {
       let agentBANKACNO = null
       if (item.AGENT_ACNO != 0 && agentschemastData != null) {
         let agentacno = Number(item.AGENT_ACNO) + 100000
-        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + agentschemastData[0].S_APPL + agentacno
+        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + agentschemastData[0].S_APPL + agentacno
       }
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let loanObj = new PIGMYTRAN();
       loanObj['TRAN_NO'] = item.TRAN_NO;
       loanObj['SERIAL_NO'] = item.SERIAL_NO;
@@ -4743,7 +4889,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let loanObj = new SHARETRAN();
       loanObj['TRAN_NO'] = item.TRAN_NO;
       loanObj['SERIAL_NO'] = item.SERIAL_NO;
@@ -4826,7 +4972,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let loanObj = new INTERESTTRAN();
       loanObj['TRAN_NO'] = item.TRAN_NO;
       loanObj['SERIAL_NO'] = item.SERIAL_NO;
@@ -4945,7 +5091,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE1);
       let acno = Number(item.AC_NO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let loanObj = new HISTORYDIVIDEND();
       loanObj['WARRENT_DATE'] = moment(item.WARRENT_DATE).format('DD/MM/YYYY');
       loanObj['BRANCH_CODE'] = this.BRANCH_CODE;
@@ -5022,12 +5168,12 @@ export class MigrateService {
       }
       else {
         acno = Number(item.TRAN_ACNO) + 100000
-        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       }
       let agentBANKACNO = null
       if (item.AGENT_ACNO != 0 && agentschemastData != null) {
         let agentacno = Number(item.AGENT_ACNO) + 100000
-        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + agentschemastData[0].S_APPL + agentacno
+        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + agentschemastData[0].S_APPL + agentacno
       }
       let loanObj = new HISTORYTRAN();
       loanObj['TRAN_NO'] = item.TRAN_NO;
@@ -5172,12 +5318,12 @@ export class MigrateService {
       }
       else {
         acno = Number(item.TRAN_ACNO) + 100000
-        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+        BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       }
       let agentBANKACNO = null
       if (item.AGENT_ACNO != 0 && agentschemastData != null) {
         let agentacno = Number(item.AGENT_ACNO) + 100000
-        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + agentschemastData[0].S_APPL + agentacno
+        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + agentschemastData[0].S_APPL + agentacno
       }
       let loanObj = new DAILYTRAN();
       loanObj['TRAN_NO'] = item.TRAN_NO;
@@ -5357,7 +5503,7 @@ export class MigrateService {
       let obj = new BANKDEPOTRAN()
       let acno = Number(item.TRAN_ACNO) + 100000
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let DEBIT_ACTYPE = null
       let agentschemastData = null
       if (item.DEBIT_ACTYPE != null) {
@@ -5522,7 +5668,7 @@ export class MigrateService {
     for (let item of data) {
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new CHARGESNOTING()
       obj['TRAN_DATE'] = item.TRAN_DATE == '' || item.TRAN_DATE == null ? null : moment(item.TRAN_DATE).format('DD/MM/YYYY');
       obj['TRAN_ACNOTYPE'] = item.TRAN_ACNOTYPE
@@ -5562,7 +5708,7 @@ export class MigrateService {
       let acno
       let BANKACNO
       acno = Number(item.TRAN_ACNO) + 100000
-      BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let TRANSFER_ACTYPE_FROM = null
       let TRANSFER_ACTYPE_TO = null
       let agentschemastData = null
@@ -5571,18 +5717,18 @@ export class MigrateService {
       let TRANSFER_MEMBER_NO_TO = null
       let BANKTRANSFER_MEMBER_NO_TO = null
       acno = Number(item.TRAN_ACNO) + 100000
-      BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       if (item.TRANSFER_ACTYPE_FROM != null) {
         TRANSFER_ACTYPE_FROM = this.OracleSchemast.filter(ele => ele['S_APPL'] == item.TRANSFER_ACTYPE_FROM);
         agentschemastData = this.PostSchemast.filter(ele => ele['id'] == TRANSFER_ACTYPE_FROM[0].TYPEID);
         TRANSFER_MEMBER_NO_FROM = Number(item.TRANSFER_MEMBER_NO_FROM) + 100000
-        BANKTRANSFER_MEMBER_NO_FROM = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + agentschemastData[0].S_APPL + TRANSFER_MEMBER_NO_FROM
+        BANKTRANSFER_MEMBER_NO_FROM = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + agentschemastData[0].S_APPL + TRANSFER_MEMBER_NO_FROM
       }
       if (item.TRANSFER_MEMBER_NO_TO != null) {
         TRANSFER_ACTYPE_TO = this.OracleSchemast.filter(ele => ele['S_APPL'] == item.TRANSFER_ACTYPE_TO);
         let agentschemastData = this.PostSchemast.filter(ele => ele['id'] == TRANSFER_ACTYPE_TO[0].TYPEID);
         TRANSFER_MEMBER_NO_TO = Number(item.TRANSFER_MEMBER_NO_TO) + 100000
-        BANKTRANSFER_MEMBER_NO_TO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + agentschemastData[0].S_APPL + TRANSFER_MEMBER_NO_TO
+        BANKTRANSFER_MEMBER_NO_TO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + agentschemastData[0].S_APPL + TRANSFER_MEMBER_NO_TO
       }
       let obj = new DAILYSHRTRAN();
       obj['TRAN_DATE'] = item.TRAN_DATE == '' || item.TRAN_DATE == null ? null : moment(item.TRAN_DATE).format('DD/MM/YYYY');
@@ -5854,7 +6000,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new INTHISTORYTRAN()
       obj['TRAN_NO'] = item.TRAN_NO
       obj['SERIAL_NO'] = item.SERIAL_NO
@@ -5971,7 +6117,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new OIRTRAN()
       obj['TRAN_DATE'] = item.TRAN_DATE == '' || item.TRAN_DATE == null ? null : moment(item.TRAN_DATE).format('DD/MM/YYYY')
       obj['SERIAL_NO'] = item.SERIAL_NO
@@ -6010,7 +6156,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new RECOTRAN()
       obj['TRAN_DATE'] = item.TRAN_DATE == '' || item.TRAN_DATE == null ? null : moment(item.TRAN_DATE).format('DD/MM/YYYY')
       obj['BRANCH_CODE'] = this.BRANCH_CODE
@@ -6043,7 +6189,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.AC_NO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new TDRECEIPTISSUE()
       obj['BRANCH_CODE'] = this.BRANCH_CODE
       obj['PRINT_DATE'] = item.PRINT_DATE == '' || item.PRINT_DATE == null ? null : moment(item.PRINT_DATE).format('DD/MM/YYYY')
@@ -6070,7 +6216,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.AC_NO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new NPADATA()
       obj['SERIAL_NO'] = item.SERIAL_NO
       obj['REPORT_DATE'] = item.REPORT_DATE == '' || item.REPORT_DATE == null ? null : moment(item.REPORT_DATE).format('DD/MM/YYYY')
@@ -6205,7 +6351,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.AC_NO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new PASSBOOKPRINT()
       obj['AC_ACNOTYPE'] = item.AC_ACNOTYPE
       obj['AC_TYPE'] = item.ACTYPE
@@ -6237,7 +6383,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.AC_NO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new PASSBOOKHISTORY()
       obj['AC_ACNOTYPE'] = item.AC_ACNOTYPE
       obj['AC_TYPE'] = item.ACTYPE
@@ -6359,7 +6505,7 @@ export class MigrateService {
       let date = ele.TRAN_DATE == '' || ele.TRAN_DATE == null ? null : moment(ele.TRAN_DATE).format('DD/MM/YYYY')
       let schemastData = this.PostSchemast.filter(ele1 => ele1['id'] == ele.ACTYPE);
       let acno = Number(ele.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new DEPOCLOSETRAN()
       obj['TRAN_NO'] = ele.TRAN_NO
       obj['TRAN_DATE'] = ele.TRAN_DATE == '' || ele.TRAN_DATE == null ? null : moment(ele.TRAN_DATE).format('DD/MM/YYYY')
@@ -6417,7 +6563,7 @@ export class MigrateService {
         for (let item of resultDetail) {
           let schemastData = this.PostSchemast.filter(item1 => item1['id'] == item.ACTYPE);
           let acno = Number(item.TRANSFER_ACNO) + 100000
-          let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+          let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
           let details = new DEPOCLOSETRANSAC()
           details['TRAN_DATE'] = item.TRAN_DATE == '' || item.TRAN_DATE == null ? null : moment(item.TRAN_DATE).format('DD/MM/YYYY')
           details['TRAN_NO'] = item.TRAN_NO
@@ -6557,7 +6703,7 @@ export class MigrateService {
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new LOCKERTRAN()
       obj['TRAN_NO'] = item.TRAN_NO
       obj['SERIAL_NO'] = item.SERIAL_NO
@@ -6605,11 +6751,11 @@ export class MigrateService {
       let agentBANKACNO = null
       if (item.TRF_ACNO != 0 && agentschemastData != null) {
         let agentacno = Number(item.TRF_ACNO) + 100000
-        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + agentschemastData[0].S_APPL + agentacno
+        agentBANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + agentschemastData[0].S_APPL + agentacno
       }
       let schemastData = this.PostSchemast.filter(ele => ele['id'] == item.ACTYPE);
       let acno = Number(item.TRAN_ACNO) + 100000
-      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + acno
+      let BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + acno
       let obj = new LOCKERRENTTRAN()
       obj['TRAN_NO'] = item.TRAN_NO
       obj['TRAN_DATE'] = item.TRAN_DATE == '' || item.TRAN_DATE == null ? null : moment(item.TRAN_DATE).format('DD/MM/YYYY')
@@ -6660,9 +6806,9 @@ export class MigrateService {
       else {
         let schemastData = this.PostSchemast.filter(item1 => item1['id'] == pigmychart[0].ACTYPE);
         let AGENT_ACNO = Number(pigmychart[0].AGENT_ACNO) + 100000
-        let AGENT_BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + AGENT_ACNO
+        let AGENT_BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + AGENT_ACNO
         let pigmy = new PIGMYCHART()
-        pigmy['BRANCHCODE'] = this.PostBranch[0].CODE
+        pigmy['BRANCHCODE'] = this.PostBranchOne[0].CODE
         pigmy['BRANCH_ID'] = this.BRANCH_CODE
         pigmy['TRAN_DATE'] = pigmychart[0].TRAN_DATE == '' || pigmychart[0].TRAN_DATE == null ? null : moment(pigmychart[0].TRAN_DATE).format('DD/MM/YYYY')
         pigmy['TRAN_TIME'] = pigmychart[0].TRAN_TIME
@@ -6700,7 +6846,7 @@ export class MigrateService {
         for (let ele of pigmychartmaster) {
           let schemastData = this.PostSchemast.filter(item1 => item1['id'] == ele.ACTYPE);
           let TRAN_ACNO = Number(ele.TRAN_ACNO) + 100000
-          let TRAN_BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranch[0].CODE + schemastData[0].S_APPL + TRAN_ACNO
+          let TRAN_BANKACNO = this.PostSyspara[0].BANK_CODE + this.PostBranchOne[0].CODE + schemastData[0].S_APPL + TRAN_ACNO
           let pgmastData = pgmasterdata.filter(item1 => item1['BANKACNO'] == TRAN_BANKACNO);
           let chart = new PIGMYCHARTMASTER()
           chart['SERIAL_NO'] = ele.SERIAL_NO

@@ -55,10 +55,10 @@ export class INTHISTORYTRAN {
     NARRATION: string
 
     @Column({ nullable: true })
-    TRAN_AMOUNT: number
+    TRAN_AMOUNT: string
 
     @Column({ nullable: true })
-    RECPAY_INT_AMOUNT: number
+    RECPAY_INT_AMOUNT: string
 
     @Column({ nullable: true })
     INTEREST_DATE: string
@@ -70,25 +70,25 @@ export class INTHISTORYTRAN {
     OFFICER_CODE: string
 
     @Column({ nullable: true })
-    INTEREST_AMOUNT: number
+    INTEREST_AMOUNT: string
 
     @Column({ nullable: true })
     PENAL_INT_GLACNO: number
 
     @Column({ nullable: true })
-    PENAL_INT_AMOUNT: number
+    PENAL_INT_AMOUNT: string
 
     @Column({ nullable: true })
     LAST_INTEREST_DATE: string
 
     @Column({ nullable: true })
-    INTEREST_RATE: number
+    INTEREST_RATE: string
 
     @Column({ nullable: true })
-    TD_SCHEME_AMOUNT: number
+    TD_SCHEME_AMOUNT: string
 
     @Column({ nullable: true })
-    LEDGER_BALANCE: number
+    LEDGER_BALANCE: string
 
     @Column({ nullable: true })
     TOTAL_PRODUCTS: number
@@ -112,32 +112,32 @@ export class INTHISTORYTRAN {
     DAILYTRAN_POST_NO: number
 
     @Column({ nullable: true })
-    POST_PENALINT_IN_INTEREST: number
+    POST_PENALINT_IN_INTEREST: string
 
     @Column({ nullable: true })
     ODUE_INT_GLACNO: number
 
     @Column({ nullable: true })
-    ODUE_INT_AMOUNT: number
+    ODUE_INT_AMOUNT: string
 
     @Column({ nullable: true })
     IS_POST_PENAL_TO_AC: number
 
     @Column({ nullable: true })
-    RECPAY_INT_OPENING: number
+    RECPAY_INT_OPENING: string
 
     @Column({ nullable: true })
-    ODUE_INT_OPENING: number
+    ODUE_INT_OPENING: string
 
     @Column({ nullable: true })
-    OD_INT_AMOUNT: number
+    OD_INT_AMOUNT: string
 
     @Column({ nullable: true })
-    REC_PENAL_INT_AMOUNT: number
+    REC_PENAL_INT_AMOUNT: string
 
     @Column({ nullable: true })
     REC_PENAL_INT_GLACNO: number
 
     @Column({ nullable: true })
-    RECPENAL_INT_OPENING: number
+    RECPENAL_INT_OPENING: string
 }
