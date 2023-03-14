@@ -156,10 +156,15 @@ import { MANAGERVIEW } from '../entity/entity/manager-view-glp.entity'
 import { DIVIDEND } from '../entity/entity/DIVIDEND.entity'
 import { PIGMYCHARTMASTER } from '../entity/entity/pigmyChart.entity'
 import { PIGMYCHART } from '../entity/entity/pigmy-chart.entity'
-
+import { CUSTDOCUMENT } from '../entity/entity/document.entity'
+import oracledb from 'oracledb';
+import { createWriteStream } from 'fs';
+import mime from 'mime-types';
+import * as fs from 'fs';
 @Injectable()
 export class MigrateService {
   constructor(@InjectRepository(CATEGORYMASTER) private readonly CATEGORYMASTERService: Repository<CATEGORYMASTER>,
+    @InjectRepository(CUSTDOCUMENT) private CUSTDOCUMENTService: Repository<CUSTDOCUMENT>,
     @InjectRepository(PIGMYCHARTMASTER) private PIGMYCHARTMASTERService: Repository<PIGMYCHARTMASTER>,
     @InjectRepository(PIGMYCHART) private PIGMYCHARTService: Repository<PIGMYCHART>,
     @InjectRepository(DIVIDEND) private DIVIDENDService: Repository<DIVIDEND>,
@@ -377,150 +382,151 @@ export class MigrateService {
     this.password = data.password
     this.SID = data.SID
     this.BRANCH_CODE = data.BRANCH_CODE
-    await this.SYSPARA()
-    await this.TableData()
-    await this.SHARECAPITALAMTDETAILS()
-    await this.SCHEMAST()
-    await this.TableData()
-    await this.SCHEMDATA()
-    await this.ACMASTER()
-    await this.TableData()
-    await this.TRANINPUTHEAD()
-    //information 
-    await this.SIZEWISEBALANCE()
-    await this.TERMMASTER()
-    await this.ADVOCATEMASTER()
-    await this.BALACATA()
-    await this.PREFIX()
-    await this.PRIORITYSECTORMASTER()
-    await this.RECOVERYCLEARKMASTER()
-    await this.RISKCATEGORYMASTER()
-    await this.SALARYDIVISIONMASTER()
-    await this.SUBSALARYMASTER()
-    await this.WEAKERMASTER()
-    await this.TDRECEIPTMASTER()
-    await this.AUTHORITYMASTER()
-    await this.LOCKERRACKMASTER()
-    await this.LOCKERSIZE()
-    await this.LOCKERMASTER()
-    await this.ITEMCATEGORYMASTER()
-    await this.DOCUMENTMASTER()
-    await this.BRANCHMASTER()
-    await this.COURTMASTER()
-    await this.CATEGORYMASTER()
-    await this.CASTMASTER()
-    await this.BANKDETAILS()
-    await this.CITYMASTER()
-    await this.BANKMASTER()
-    await this.DEPRCATEGORY()
-    await this.DIRECTORMASTER()
-    await this.HEALTHMASTER()
-    await this.INDUSTRYMASTER()
-    await this.INSUARANCEMASTER()
-    await this.INTCATEGORYMASTER()
-    await this.LOANSTAGEMASTER()
-    await this.NARRATIONMASTER()
-    await this.OCCUPATIONMASTER()
-    await this.OPERATIONMASTER()
-    await this.PRIORITYMASTER()
-    await this.PURPOSEMASTER()
-    await this.REPORTTYPEMASTER()
-    await this.TableData()
-    //utility
-    await this.HOLIDAYSMASTER()
-    await this.PGCOMMISSIONMASTER()
-    // defination
-    await this.intrateTD()
-    await this.INTRATETDMULTI()
-    await this.DEPRRATE()
-    await this.INTRATELOAN()
-    await this.INTRATEPATSCHEMES()
-    await this.PREMATULESSRATE()
-    await this.CHARGES()
-    await this.INTRATESBPG()
-    await this.SECURITYMASTER()
-    await this.TDSRATE()
-    await this.NPAMASTER()
-    await this.TDSFORMSUBMIT()
-    await this.COMMISSIONSLAB()
-    await this.IDMASTER()
-    await this.TableData()
-    await this.ITEMMASTER()
-    await this.SHmasterScript()
-    await this.DPMASTERScript()
-    await this.PGmasterScript()
-    await this.lnmasterScript()
-    //security tables
-    await this.STOCKSTATEMENT()
-    await this.VEHICLE()
-    await this.PLANTMACHINARY()
-    await this.OWNDEPOSIT()
-    await this.PLEDGESTOCK()
-    await this.BOOKDEBTS()
-    await this.OTHERSECURITY()
-    await this.MARKETSHARE()
-    await this.LANDBUILDING()
-    await this.GOLDSILVER()
-    await this.FURNITURE()
-    await this.FIREPOLICY()
-    await this.SECINSURANCE()
-    await this.GOVTSECULIC()
-    // INSTRUCTION
-    await this.SPECIALINSTRUCTION()
-    await this.TODTRAN()
-    await this.STANDINSTRUCTION()
-    await this.INTINSTRUCTION()
-    //transaction
-    await this.DAILYTRAN()
-    await this.HISTORYTRAN()
-    await this.ACCOTRAN()
-    await this.SHARETRAN()
-    await this.LOANTRAN()
-    await this.DEPOTRAN()
-    await this.PIGMYTRAN()
-    await this.DAILYSHRTRAN()
-    await this.RENEWALHISTORY()
-    await this.DEADSTOCKHEADER()
-    await this.DEPOCLOSETRAN()
-    await this.INTERESTTRAN()
-    await this.PIGMYCHART()
-    await this.HISTORYDIVIDEND()
-    await this.DIVPAIDTRAN()
-    await this.DIVIDEND()
-    await this.AGENTCHANGEHISTORY()
-    await this.BANKBRANCHMASTER()
-    await this.BANKCOMMISSION()
-    await this.BANKDEPOTRAN()
-    await this.BATCHVOUCHERTRAN()
-    await this.BUDGETMASTER()
-    await this.CASHINTINSTRUCTIONS()
-    await this.CDRATIO()
-    await this.CHARGESNOTING()
-    await this.NPALOCK()
-    await this.EXCESSCASH()
-    await this.CRARTRAN()
-    await this.DENOMINATION()
-    await this.USERDENOMINATION()
-    await this.HISTORYDENO()
-    await this.HISTORYGENERALMEETING()
-    await this.INTHISTORYTRAN()
-    await this.TDSTRAN()
-    await this.OIRTRAN()
-    await this.MORATORIUMPERIOD()
-    await this.RECOTRAN()
-    await this.TDRECEIPTISSUE()
-    await this.STANDINSTRUCTIONLOG()
-    await this.INTINSTRUCTIONSLOG()
-    await this.NPADATA()
-    await this.PASSBOOKPRINT()
-    await this.PASSBOOKHISTORY()
-    await this.SUBSIDARYMASTER()
-    await this.MANAGERVIEW()
-    await this.GLREPORTLINK()
-    await this.GLREPORTMASTER()
-    await this.LOCKERTRAN()
-    await this.LOCKERRENTTRAN()
-    console.log('data conversion successfully completed')
+    // await this.SYSPARA()
+    // await this.TableData()
+    // await this.SHARECAPITALAMTDETAILS()
+    // await this.SCHEMAST()
+    // await this.TableData()
+    // await this.SCHEMDATA()
+    // await this.ACMASTER()
+    // await this.TableData()
+    // await this.TRANINPUTHEAD()
+    // //information 
+    // await this.SIZEWISEBALANCE()
+    // await this.TERMMASTER()
+    // await this.ADVOCATEMASTER()
+    // await this.BALACATA()
+    // await this.PREFIX()
+    // await this.PRIORITYSECTORMASTER()
+    // await this.RECOVERYCLEARKMASTER()
+    // await this.RISKCATEGORYMASTER()
+    // await this.SALARYDIVISIONMASTER()
+    // await this.SUBSALARYMASTER()
+    // await this.WEAKERMASTER()
+    // await this.TDRECEIPTMASTER()
+    // await this.AUTHORITYMASTER()
+    // await this.LOCKERRACKMASTER()
+    // await this.LOCKERSIZE()
+    // await this.LOCKERMASTER()
+    // await this.ITEMCATEGORYMASTER()
+    // await this.DOCUMENTMASTER()
+    // await this.BRANCHMASTER()
+    // await this.COURTMASTER()
+    // await this.CATEGORYMASTER()
+    // await this.CASTMASTER()
+    // await this.BANKDETAILS()
+    // await this.CITYMASTER()
+    // await this.BANKMASTER()
+    // await this.DEPRCATEGORY()
+    // await this.DIRECTORMASTER()
+    // await this.HEALTHMASTER()
+    // await this.INDUSTRYMASTER()
+    // await this.INSUARANCEMASTER()
+    // await this.INTCATEGORYMASTER()
+    // await this.LOANSTAGEMASTER()
+    // await this.NARRATIONMASTER()
+    // await this.OCCUPATIONMASTER()
+    // await this.OPERATIONMASTER()
+    // await this.PRIORITYMASTER()
+    // await this.PURPOSEMASTER()
+    // await this.REPORTTYPEMASTER()
+    // await this.TableData()
+    // //utility
+    // await this.HOLIDAYSMASTER()
+    // await this.PGCOMMISSIONMASTER()
+    // // defination
+    // await this.intrateTD()
+    // await this.INTRATETDMULTI()
+    // await this.DEPRRATE()
+    // await this.INTRATELOAN()
+    // await this.INTRATEPATSCHEMES()
+    // await this.PREMATULESSRATE()
+    // await this.CHARGES()
+    // await this.INTRATESBPG()
+    // await this.SECURITYMASTER()
+    // await this.TDSRATE()
+    // await this.NPAMASTER()
+    // await this.TDSFORMSUBMIT()
+    // await this.COMMISSIONSLAB()
+    // await this.IDMASTER()
+    // await this.TableData()
+    // await this.ITEMMASTER()
+    // await this.SHmasterScript()
+    // await this.DPMASTERScript()
+    // await this.PGmasterScript()
+    // await this.lnmasterScript()
+    // //security tables
+    // await this.STOCKSTATEMENT()
+    // await this.VEHICLE()
+    // await this.PLANTMACHINARY()
+    // await this.OWNDEPOSIT()
+    // await this.PLEDGESTOCK()
+    // await this.BOOKDEBTS()
+    // await this.OTHERSECURITY()
+    // await this.MARKETSHARE()
+    // await this.LANDBUILDING()
+    // await this.GOLDSILVER()
+    // await this.FURNITURE()
+    // await this.FIREPOLICY()
+    // await this.SECINSURANCE()
+    // await this.GOVTSECULIC()
+    // // INSTRUCTION
+    // await this.SPECIALINSTRUCTION()
+    // await this.TODTRAN()
+    // await this.STANDINSTRUCTION()
+    // await this.INTINSTRUCTION()
+    // //transaction
+    // await this.DAILYTRAN()
+    // await this.HISTORYTRAN()
+    // await this.ACCOTRAN()
+    // await this.SHARETRAN()
+    // await this.LOANTRAN()
+    // await this.DEPOTRAN()
+    // await this.PIGMYTRAN()
+    // await this.DAILYSHRTRAN()
+    // await this.RENEWALHISTORY()
+    // await this.DEADSTOCKHEADER()
+    // await this.DEPOCLOSETRAN()
+    // await this.INTERESTTRAN()
+    // await this.PIGMYCHART()
+    // await this.HISTORYDIVIDEND()
+    // await this.DIVPAIDTRAN()
+    // await this.DIVIDEND()
+    // await this.AGENTCHANGEHISTORY()
+    // await this.BANKBRANCHMASTER()
+    // await this.BANKCOMMISSION()
+    // await this.BANKDEPOTRAN()
+    // await this.BATCHVOUCHERTRAN()
+    // await this.BUDGETMASTER()
+    // await this.CASHINTINSTRUCTIONS()
+    // await this.CDRATIO()
+    // await this.CHARGESNOTING()
+    // await this.NPALOCK()
+    // await this.EXCESSCASH()
+    // await this.CRARTRAN()
+    // await this.DENOMINATION()
+    // await this.USERDENOMINATION()
+    // await this.HISTORYDENO()
+    // await this.HISTORYGENERALMEETING()
+    // await this.INTHISTORYTRAN()
+    // await this.TDSTRAN()
+    // await this.OIRTRAN()
+    // await this.MORATORIUMPERIOD()
+    // await this.RECOTRAN()
+    // await this.TDRECEIPTISSUE()
+    // await this.STANDINSTRUCTIONLOG()
+    // await this.INTINSTRUCTIONSLOG()
+    // await this.NPADATA()
+    // await this.PASSBOOKPRINT()
+    // await this.PASSBOOKHISTORY()
+    // await this.SUBSIDARYMASTER()
+    // await this.MANAGERVIEW()
+    // await this.GLREPORTLINK()
+    // await this.GLREPORTMASTER()
+    // await this.LOCKERTRAN()
+    // await this.LOCKERRENTTRAN()
+    // await this.custdocument()
+    // console.log('data conversion successfully completed')
   }
 
   //syspara
@@ -6866,5 +6872,79 @@ export class MigrateService {
     }
     await connection2.close()
     console.log('PIGMYCHART')
+  }
+  async custdocument() {
+    let fileExt = 'png'
+    let connection2 = await oracledb.getConnection({ user: this.user, password: this.password, connectString: this.connectionString });
+    let result = await connection2.execute(`SELECT SIGN.* FROM SIGN inner join idmaster on SIGN.ac_no=idmaster.ac_no`);
+    var data = await this.jsonConverter(result);
+    for (let ele of data) {
+      let idmasterID = (this.Postidmaster.find(idmaster => idmaster['ORA_AC_NO'] == ele.AC_NO && idmaster['ORA_BRANCH'] == this.BRANCH_CODE))
+      if (idmasterID == undefined) {
+        continue;
+      }
+      if (!fs.existsSync('upload')) {
+        fs.mkdirSync('upload', { recursive: true });
+      }
+      if (!fs.existsSync(`upload/${ele.AC_NO}`)) {
+        fs.mkdirSync(`upload/${ele.AC_NO}`, { recursive: true });
+      }
+      if (ele.PHOTO != null) {
+        let blobData = ele.PHOTO;
+        const file_path: string = `upload/${ele.AC_NO}/PHOTO.${fileExt}`;
+        let writeStream = createWriteStream(file_path);
+        (blobData.pipe.bind(blobData))(writeStream);
+        let custDocument = new CUSTDOCUMENT()
+        custDocument['PATH'] = file_path
+        custDocument['idmasterID'] = idmasterID.id
+        custDocument['DocumentMasterID'] = 1
+        const doc = this.CUSTDOCUMENTService.insert(custDocument)
+      }
+      if (ele.SIGN1 != null) {
+        let blobData = ele.SIGN1;
+        const file_path: string = `upload/${ele.AC_NO}/SIGN1.${fileExt}`;
+        let writeStream = createWriteStream(file_path);
+        (blobData.pipe.bind(blobData))(writeStream);
+        let custDocument = new CUSTDOCUMENT()
+        custDocument['PATH'] = file_path
+        custDocument['idmasterID'] = idmasterID.id
+        custDocument['DocumentMasterID'] = 2
+        const doc = this.CUSTDOCUMENTService.insert(custDocument)
+      }
+      if (ele.SIGN2 != null) {
+        let blobData = ele.SIGN2;
+        const file_path: string = `upload/${ele.AC_NO}/SIGN2.${fileExt}`;
+        let writeStream = createWriteStream(file_path);
+        (blobData.pipe.bind(blobData))(writeStream);
+        let custDocument = new CUSTDOCUMENT()
+        custDocument['PATH'] = file_path
+        custDocument['idmasterID'] = idmasterID.id
+        custDocument['DocumentMasterID'] = 2
+        const doc = this.CUSTDOCUMENTService.insert(custDocument)
+      }
+      if (ele.SIGN3 != null) {
+        let blobData = ele.SIGN3;
+        const file_path: string = `upload/${ele.AC_NO}/SIGN3.${fileExt}`;
+        let writeStream = createWriteStream(file_path);
+        (blobData.pipe.bind(blobData))(writeStream);
+        let custDocument = new CUSTDOCUMENT()
+        custDocument['PATH'] = file_path
+        custDocument['idmasterID'] = idmasterID.id
+        custDocument['DocumentMasterID'] = 2
+        const doc = this.CUSTDOCUMENTService.insert(custDocument)
+      }
+      if (ele.SIGN4 != null) {
+        let blobData = ele.SIGN4;
+        const file_path: string = `upload/${ele.AC_NO}/SIGN4.${fileExt}`;
+        let writeStream = createWriteStream(file_path);
+        (blobData.pipe.bind(blobData))(writeStream);
+        let custDocument = new CUSTDOCUMENT()
+        custDocument['PATH'] = file_path
+        custDocument['idmasterID'] = idmasterID.id
+        custDocument['DocumentMasterID'] = 2
+        const doc = this.CUSTDOCUMENTService.insert(custDocument)
+      }
+    }
+    return 0
   }
 }
